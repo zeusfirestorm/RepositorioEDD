@@ -143,7 +143,7 @@ public class IngresoJugadores {
 			System.out.println("Letra: " + i + ": " + letraPuntuacionValor);
 			String letra = letraPuntuacionValor.split(",")[0];
 			int puntuacion = Integer.parseInt(letraPuntuacionValor.split(",")[1]);
-			listaLetrasJugador.agregarAlInicio(letra, puntuacion);
+			listaLetrasJugador.agregarAlInicio(letra, puntuacion,i);
 			letraPuntuacionValor = "";
 		}
 		listaLetrasJugador.listar();

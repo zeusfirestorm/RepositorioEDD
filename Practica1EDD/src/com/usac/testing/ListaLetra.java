@@ -53,10 +53,11 @@ public class ListaLetra {
 		tamano++;
 	}
 
-	public void agregarAlInicio(String valor, int puntuacion) {
+	public void agregarAlInicio(String valor, int puntuacion, int pos) {
 		NodoLetra nuevo = new NodoLetra();
 		nuevo.setValorNodo(valor);
 		nuevo.setPuntuacion(puntuacion);
+		nuevo.setPos(pos);
 		if (esVacia()) {
 			inicio = nuevo;
 		} else {

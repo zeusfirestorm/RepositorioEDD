@@ -4,12 +4,15 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
+import com.usac.edd.utils.GenerarCodGraphviz;
+import com.usac.testing.Imagen;
 import com.usac.testing.ListaCircular;
 import com.usac.testing.ListaLetra;
 import com.usac.testing.Nodo;
 import com.usac.testing.NodoJugador;
 import com.usac.testing.NodoLetra;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -19,12 +22,18 @@ import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTabbedPane;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 public class InterfazJuego {
 
@@ -44,6 +53,7 @@ public class InterfazJuego {
 	JCheckBox cbLetra5;
 	JCheckBox cbLetra6;
 	JCheckBox cbLetra7;
+	JPanel panelColaFichas;
 
 	/**
 	 * Launch the application.
@@ -74,7 +84,7 @@ public class InterfazJuego {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setFont(new Font("Tahoma", Font.BOLD, 15));
-		frame.setBounds(100, 100, 826, 471);
+		frame.setBounds(100, 100, 1126, 718);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -173,7 +183,7 @@ public class InterfazJuego {
 		scrollPane_1 = new JScrollPane(list);
 		scrollPane_1.setBounds(402, 105, 101, 72);
 		frame.getContentPane().add(scrollPane_1);
-		
+
 		btnAgregarPalabra = new JButton("Agregar Palabra");
 		btnAgregarPalabra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -185,20 +195,44 @@ public class InterfazJuego {
 		});
 		btnAgregarPalabra.setBounds(402, 236, 143, 23);
 		frame.getContentPane().add(btnAgregarPalabra);
-		
+
 		tfNuevaPalabra = new JTextField();
 		tfNuevaPalabra.setBounds(402, 200, 143, 20);
 		frame.getContentPane().add(tfNuevaPalabra);
 		tfNuevaPalabra.setColumns(10);
+		// Generar Grafico Jugadores
+		GenerarCodGraphviz generarCodGraphviz = new GenerarCodGraphviz();
+		generarCodGraphviz.generarCodigoJugador();
+		generarCodGraphviz.generarCodigoMonedas(jugadorActivo);
+
+		// Generar grafico Monedas de jugadores
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(570, 93, 530, 303);
+		frame.getContentPane().add(tabbedPane);
+
+		JPanel panelListaJugadores = new JPanel();
+		panelColaFichas = new JPanel();
+		JPanel panelListaFichasActivas = new JPanel();
+		JPanel panelListaDiccionario = new JPanel();
+
+		tabbedPane.addTab("Jugadores", null, panelListaJugadores, null);
+		tabbedPane.addTab("Cola Fichas", null, panelColaFichas, null);
+		tabbedPane.addTab("Lista Fichas Activas", null, panelListaFichasActivas, null);
+		tabbedPane.addTab("Lista Diccionario", null, panelListaDiccionario, null);
+
+		panelListaJugadores.removeAll();
+		panelListaJugadores.setBorder(new Imagen("file:///C:/DiagramasEDD/Graficas.jpg"));
+		panelListaJugadores.repaint();
+
+		panelColaFichas.removeAll();
+		panelColaFichas.setBorder(new Imagen("file:///C:/DiagramasEDD/Monedas.jpg"));
+		panelColaFichas.repaint();
 
 		llenarListaJugadores();
 
 		btnListar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// IngresoJugadores.listaJugador.listar();
-				PrincipalMenu.listaPalabras.listar();
-				// siguienteJugador();
-
+				siguienteJugador();
 			}
 		});
 	}
@@ -212,7 +246,7 @@ public class InterfazJuego {
 
 	private void siguienteJugador() {
 		jugadorActivo = jugadorActivo.getSiguiente();
-		actualizarValores();
+		actualizarValores();	
 	}
 
 	private void actualizarValores() {
@@ -239,6 +273,17 @@ public class InterfazJuego {
 		cbLetra6.setSelected(false);
 		cbLetra7.setSelected(false);
 		list.updateUI();
+		GenerarCodGraphviz generarCodGraphviz = new GenerarCodGraphviz();
+		generarCodGraphviz.generarCodigoMonedas(jugadorActivo);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		panelColaFichas.removeAll();
+		panelColaFichas.setBorder(new Imagen("file:///C:/DiagramasEDD/Monedas.jpg"));
+		panelColaFichas.repaint();
+		PrincipalMenu.listaPalabras.listar();
 	}
 
 	private void cambiarLetra() {

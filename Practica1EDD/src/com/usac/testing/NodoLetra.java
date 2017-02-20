@@ -4,6 +4,7 @@ public class NodoLetra {
 	private String valorNodo;
 	private NodoLetra siguiente;
 	private int puntuacion;
+	private int pos;
 
 	public int getPuntuacion() {
 		return puntuacion;
@@ -27,6 +28,14 @@ public class NodoLetra {
 
 	public void setValorNodo(String valorNodo) {
 		this.valorNodo = valorNodo;
+	}
+
+	public int getPos() {
+		return pos;
+	}
+
+	public void setPos(int pos) {
+		this.pos = pos;
 	}
 
 }

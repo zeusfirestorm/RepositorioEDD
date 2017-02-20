@@ -1,8 +1,20 @@
 package com.usac.testing;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 import com.usac.edd.utils.LoadXML;
 
 public class TestingEDD {
+	public TestingEDD(){
+		
+	}
 
 	public static void main(String[] args) throws Exception {
 		// // TODO Auto-generated method stub
@@ -136,7 +148,19 @@ public class TestingEDD {
 		// llenarletras(remanente);
 		// }
 		// obtenerPuntuacion('c');
-
+		// MatrizOrtogonal matrizOrtogona = new MatrizOrtogonal(5);
+		// new TestingEDD("C:\\DiagramasEDD\\Graficas.txt",
+		// "C:\\DiagramasEDD\\Graficas.jpg");
+		generar();
+//		ImageIcon image = new ImageIcon("Graficas.jpg");
+//		System.out.println("TamanoImagen: " + image.getIconHeight() + " : " + image.getIconHeight());
+		//TestingEDD  test = new TestingEDD();
+		//test.abc("file:///C:/DiagramasEDD/Graficas.jpg");
+		String encabezado = "\"diagraph J { \nratio=\"fill\";\nsize=\"2,2.5!\";\nmargin=0; \n"
+				+ "node[height=0.02, width=0.01];\nnode [shape=circle];\nnode [style=filled];"
+				+ "\nnode [fillcolor=\"#EEEEEE\"];\nnode [color=\"#EEEEEE\"];\nedge [color=\"#31CEF0\"];\n";
+		System.out.println(encabezado);
+		
 	}
 
 	// static private void obtenerPuntuacion(char letra){
@@ -153,4 +177,66 @@ public class TestingEDD {
 	// break;
 	// }
 	// }
+
+	public TestingEDD(String direccionDot, String direccionPng) {
+		dibujar(direccionDot, direccionPng);
+	}
+	BufferedImage fondo;
+	public void dibujar(String direccionDot, String direccionPng) {
+		try {
+			ProcessBuilder pbuilder;
+
+			/*
+			 * Realiza la construccion del comando en la linea de comandos esto
+			 * es: dot -Tpng -o archivo.png archivo.dot
+			 */
+			pbuilder = new ProcessBuilder("dot", "-Tpng", "-o", direccionPng, direccionDot);
+			pbuilder.redirectErrorStream(true);
+			// Ejecuta el proceso
+			pbuilder.start();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void abc(String ruta) {
+		try {
+			URL url = new URL(ruta);
+			Image image = ImageIO.read(url.openStream());
+		} catch (IOException ex) {
+			System.out.println(ex.getMessage());
+			JOptionPane.showMessageDialog(null, ex.getMessage());
+		}
+
+	}
+
+	public static void generar() {
+		try {
+
+			String dotPath = "C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe";
+
+			String fileInputPath = "C:\\DiagramasEDD\\Monedas.dot";
+
+			String fileOutputPath = "C:\\DiagramasEDD\\Monedas.jpg";
+
+			String tParam = "-Tjpg";
+
+			String tOParam = "-o";
+			
+			String[] cmd = new String[5];
+			cmd[0] = dotPath;
+			cmd[1] = tParam;
+			cmd[2] = fileInputPath;
+			cmd[3] = tOParam;
+			cmd[4] = fileOutputPath;
+
+			Runtime rt = Runtime.getRuntime();
+			rt.exec(cmd);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+		}
+	}
 }
