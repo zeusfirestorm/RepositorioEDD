@@ -54,6 +54,8 @@ public class InterfazJuego {
 	JCheckBox cbLetra6;
 	JCheckBox cbLetra7;
 	JPanel panelColaFichas;
+	JPanel panelListaFichasActivas;
+	JPanel panelListaDiccionario;
 
 	/**
 	 * Launch the application.
@@ -190,6 +192,7 @@ public class InterfazJuego {
 				if (!tfNuevaPalabra.getText().equals("")) {
 					PrincipalMenu.listaPalabras.agregarAlInicio(tfNuevaPalabra.getText());
 					tfNuevaPalabra.setText("");
+					actualizarValores();
 				}
 			}
 		});
@@ -204,16 +207,18 @@ public class InterfazJuego {
 		GenerarCodGraphviz generarCodGraphviz = new GenerarCodGraphviz();
 		generarCodGraphviz.generarCodigoJugador();
 		generarCodGraphviz.generarCodigoMonedas(jugadorActivo);
+		generarCodGraphviz.generarCodigoPalabras();
+		generarCodGraphviz.generarColaFichas();
 
 		// Generar grafico Monedas de jugadores
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(570, 93, 530, 303);
+		tabbedPane.setBounds(570, 93, 530, 500);
 		frame.getContentPane().add(tabbedPane);
 
 		JPanel panelListaJugadores = new JPanel();
 		panelColaFichas = new JPanel();
-		JPanel panelListaFichasActivas = new JPanel();
-		JPanel panelListaDiccionario = new JPanel();
+		panelListaFichasActivas = new JPanel();
+		panelListaDiccionario = new JPanel();
 
 		tabbedPane.addTab("Jugadores", null, panelListaJugadores, null);
 		tabbedPane.addTab("Cola Fichas", null, panelColaFichas, null);
@@ -224,10 +229,19 @@ public class InterfazJuego {
 		panelListaJugadores.setBorder(new Imagen("file:///C:/DiagramasEDD/Graficas.jpg"));
 		panelListaJugadores.repaint();
 
+		panelListaFichasActivas.removeAll();
+		panelListaFichasActivas.setBorder(new Imagen("file:///C:/DiagramasEDD/Monedas.jpg"));
+		panelListaFichasActivas.repaint();
+		
+		panelListaDiccionario.removeAll();
+		panelListaDiccionario.setBorder(new Imagen("file:///C:/DiagramasEDD/Palabras.jpg"));
+		panelListaDiccionario.repaint();
+		
 		panelColaFichas.removeAll();
-		panelColaFichas.setBorder(new Imagen("file:///C:/DiagramasEDD/Monedas.jpg"));
+		panelColaFichas.setBorder(new Imagen("file:///C:/DiagramasEDD/Fichas.jpg"));
 		panelColaFichas.repaint();
-
+		
+		
 		llenarListaJugadores();
 
 		btnListar.addActionListener(new ActionListener() {
@@ -275,13 +289,23 @@ public class InterfazJuego {
 		list.updateUI();
 		GenerarCodGraphviz generarCodGraphviz = new GenerarCodGraphviz();
 		generarCodGraphviz.generarCodigoMonedas(jugadorActivo);
+		generarCodGraphviz.generarCodigoPalabras();
+		generarCodGraphviz.generarColaFichas();
 		try {
-			Thread.sleep(100);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		panelListaFichasActivas.removeAll();
+		panelListaFichasActivas.setBorder(new Imagen("file:///C:/DiagramasEDD/Monedas.jpg"));
+		panelListaFichasActivas.repaint();
+		
+		panelListaDiccionario.removeAll();
+		panelListaDiccionario.setBorder(new Imagen("file:///C:/DiagramasEDD/Palabras.jpg"));
+		panelListaDiccionario.repaint();
+		
 		panelColaFichas.removeAll();
-		panelColaFichas.setBorder(new Imagen("file:///C:/DiagramasEDD/Monedas.jpg"));
+		panelColaFichas.setBorder(new Imagen("file:///C:/DiagramasEDD/Fichas.jpg"));
 		panelColaFichas.repaint();
 		PrincipalMenu.listaPalabras.listar();
 	}
@@ -327,7 +351,7 @@ public class InterfazJuego {
 		System.out.println("Lista antes: ");
 		PrincipalMenu.listaLetras.listar();
 		PrincipalMenu.listaLetras.agregarAlFinal(letraCambiarLetra.getValor(numeroLetra),
-				letraCambiarLetra.getPuntuacion(numeroLetra));
+				letraCambiarLetra.getPuntuacion(numeroLetra),PrincipalMenu.listaLetras.posFinal()+1);
 		String valoresLetra = PrincipalMenu.listaLetras.getInicio();
 		letraCambiarLetra.editarPorPosicion(numeroLetra, valoresLetra.split(",")[0],
 				Integer.parseInt(valoresLetra.split(",")[1]));

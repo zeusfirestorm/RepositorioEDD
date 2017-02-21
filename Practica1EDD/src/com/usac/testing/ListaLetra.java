@@ -37,10 +37,11 @@ public class ListaLetra {
 		return tamano;
 	}
 
-	public void agregarAlFinal(String valor, int puntuacion) {
+	public void agregarAlFinal(String valor, int puntuacion, int pos) {
 		NodoLetra nuevo = new NodoLetra();
 		nuevo.setValorNodo(valor);
 		nuevo.setPuntuacion(puntuacion);
+		nuevo.setPos(pos);
 		if (esVacia()) {
 			inicio = nuevo;
 		} else {
@@ -51,6 +52,14 @@ public class ListaLetra {
 			aux.setSiguiente(nuevo);
 		}
 		tamano++;
+	}
+	
+	public int posFinal(){
+		NodoLetra aux = inicio;
+		while (aux.getSiguiente()!=null){
+			aux = aux.getSiguiente();
+		}
+		return aux.getPos();
 	}
 
 	public void agregarAlInicio(String valor, int puntuacion, int pos) {

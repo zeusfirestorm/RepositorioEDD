@@ -15,13 +15,15 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
 
 public class PrincipalMenu {
 
 	private JFrame frame;
 	public static ListaLetra listaLetras;
 	public static Lista listaPalabras;
-	private final String letras = "aaaaaaaaaaaaeeeeeeeeeeeeoooooooooiiiiiissssssnnnnnllllrrrrruuuuuttttdddddggccccbbmmpphhfvyqjñxz";
+	private String letras = "aaaaaaaaaaaaeeeeeeeeeeeeoooooooooiiiiiissssssnnnnnllllrrrrruuuuuttttdddddggccccbbmmpphhfvyqjñxz";
 
 	/**
 	 * Launch the application.
@@ -81,6 +83,9 @@ public class PrincipalMenu {
 
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (!abecedarioOpcional.getText().equals("")) {
+					letras = abecedarioOpcional.getText();
+				}
 				cargarLetras(letras);
 				listaLetras.listar();
 				IngresoJugadores ingresoJugadores = new IngresoJugadores();
@@ -90,8 +95,18 @@ public class PrincipalMenu {
 		});
 		btnNewButton_1.setBounds(250, 91, 89, 52);
 		panel.add(btnNewButton_1);
+		
+		abecedarioOpcional = new JTextField();
+		abecedarioOpcional.setBounds(67, 208, 296, 20);
+		panel.add(abecedarioOpcional);
+		abecedarioOpcional.setColumns(10);
+		
+		JLabel lblAbecedario = new JLabel("Puede agregar el abecedario");
+		lblAbecedario.setBounds(67, 177, 296, 20);
+		panel.add(lblAbecedario);
 	}
-
+	int inx = 0;
+	private JTextField abecedarioOpcional;
 	public void cargarLetras(String letras) {
 		// listaLetras.listar();
 		int longitud = letras.length();
@@ -102,13 +117,14 @@ public class PrincipalMenu {
 		// System.out.println("Letra a Extraer: " + extraer);
 
 		String remanente = "";
-
+		
 		for (int letra_i = 0; letra_i < letras.length(); letra_i++) {
 			char extraerAux = letras.charAt(letra_i);
 			if (extraer == extraerAux && posicion == letra_i) {
 				// finalletras = finalletras + b;
-
-				listaLetras.agregarAlFinal(extraerAux + "", obtenerPuntuacion(extraerAux + ""));
+				System.out.println("I: " + inx);
+				inx++;
+				listaLetras.agregarAlFinal(extraerAux + "", obtenerPuntuacion(extraerAux + ""), inx);
 				continue;
 			}
 			remanente = remanente + extraerAux;

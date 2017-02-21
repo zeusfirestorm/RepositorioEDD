@@ -5,17 +5,45 @@ import java.io.File;
 import java.io.FileWriter;
 
 import com.usac.edd.interfaz.IngresoJugadores;
+import com.usac.edd.interfaz.PrincipalMenu;
 import com.usac.testing.ListaCircular;
 import com.usac.testing.Nodo;
 import com.usac.testing.NodoLetra;
 
 public class GenerarCodGraphviz {
-	String encabezado = "digraph J { \nratio=\"fill\";\nsize=\"10,5!\"\n"
-			+ "node [shape=circle,fixedsize=true,width=0.9];node[fontsize=30];\n";
-
+	String encabezado = "digraph J {  graph [resolution=512, fontname=Arial, fontsize=50 ]; \nratio=\"fill\";\nsize=\"10,5!\"\n"
+			+ "node [shape=circle,fixedsize=true,width=0.9];node[fontsize=60];\n";	
+	
+	public void generarColaFichas(){
+		NodoLetra colaFichas = PrincipalMenu.listaLetras.getInicial();
+		NodoLetra aux = colaFichas;
+		String codigoCuerpo = encabezado;
+		while(aux.getSiguiente()!=null){
+			//System.out.println("Restantes: " + aux.getValorNodo());
+			codigoCuerpo = codigoCuerpo + aux.getValorNodo() + aux.getPos() + " -> "+ aux.getSiguiente().getValorNodo()+ aux.getSiguiente().getPos() + ";\n";
+			aux = aux.getSiguiente();
+		}
+		codigoCuerpo = codigoCuerpo + "rankdir=LR;\n}";
+		System.out.println("Restantes: " + codigoCuerpo);
+		generarArchivoDotJugadores(codigoCuerpo, "Fichas");
+	}
+	
+	public void generarCodigoPalabras(){
+		Nodo palabra = PrincipalMenu.listaPalabras.getInicial(); 
+		Nodo aux = palabra;
+		String codigoCuerpo = encabezado;
+		while(aux.getSiguiente()!= null){
+			System.out.println("Palabras: " + aux.getValorNodo());
+			codigoCuerpo = codigoCuerpo + aux.getValorNodo() + " -> " + aux.getSiguiente().getValorNodo() + ";\n";
+			aux = aux.getSiguiente();
+		}
+		codigoCuerpo = codigoCuerpo + "\n}";
+		System.out.println("Palabrasv"+ codigoCuerpo);
+		generarArchivoDotJugadores(codigoCuerpo, "Palabras");
+	}
+	
 	public void generarCodigoMonedas(Nodo jugadorActivo) {
 		System.out.println("generarCodigoMonedas()");
-		int i = 1;
 		NodoLetra nodoLetra = jugadorActivo.getLetras();
 		NodoLetra nodoAux = nodoLetra;
 		String codigoCuerpo = encabezado;

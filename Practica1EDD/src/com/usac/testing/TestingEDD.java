@@ -156,10 +156,13 @@ public class TestingEDD {
 //		System.out.println("TamanoImagen: " + image.getIconHeight() + " : " + image.getIconHeight());
 		//TestingEDD  test = new TestingEDD();
 		//test.abc("file:///C:/DiagramasEDD/Graficas.jpg");
-		String encabezado = "\"diagraph J { \nratio=\"fill\";\nsize=\"2,2.5!\";\nmargin=0; \n"
-				+ "node[height=0.02, width=0.01];\nnode [shape=circle];\nnode [style=filled];"
-				+ "\nnode [fillcolor=\"#EEEEEE\"];\nnode [color=\"#EEEEEE\"];\nedge [color=\"#31CEF0\"];\n";
-		System.out.println(encabezado);
+//		String encabezado = "\"diagraph J { \nratio=\"fill\";\nsize=\"2,2.5!\";\nmargin=0; \n"
+//				+ "node[height=0.02, width=0.01];\nnode [shape=circle];\nnode [style=filled];"
+//				+ "\nnode [fillcolor=\"#EEEEEE\"];\nnode [color=\"#EEEEEE\"];\nedge [color=\"#31CEF0\"];\n";
+//		System.out.println(encabezado);
+		
+		MatrizOrtogonal matriz = new MatrizOrtogonal(5);
+		matriz.recorrer();
 		
 	}
 
